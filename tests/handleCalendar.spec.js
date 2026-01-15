@@ -1,6 +1,6 @@
 import test, { expect } from "@playwright/test";
 
-test.only("handle calendar", async ({ page }) => {
+test("handle calendar", async ({ page }) => {
 
     const day = "12"
     const month = "6"
