@@ -1,6 +1,6 @@
 import test, { expect } from "@playwright/test";
 
-test.only("handle alerts", async ({ page }) => {
+test("handle alerts", async ({ page }) => {
 
     //------------------------handle multiple URL------------------------
     // await page.goto("https://rahulshettyacademy.com/AutomationPractice/")
