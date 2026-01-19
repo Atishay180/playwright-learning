@@ -31,7 +31,7 @@ const readExcel = (worksheet, searchText) => {
 }
 
 //-------upload file with updated input test automation------- 
-test.only('Handle excel utils', async ({ browser }) => {
+test('Handle excel utils', async ({ browser }) => {
     const context = await browser.newContext()
     const page = await context.newPage()
     await page.goto("https://rahulshettyacademy.com/upload-download-test/index.html")
