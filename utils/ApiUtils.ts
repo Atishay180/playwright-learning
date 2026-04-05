@@ -1,7 +1,20 @@
-import { expect } from "@playwright/test"
+import { expect, APIRequestContext } from "@playwright/test"
+
+interface LoginPayload {
+    userEmail: string;
+    userPassword: string;
+}
+
+interface OrderPayload {
+    orders: Array<{ country: string; productOrderedId: string }>;
+}
 
 class ApiUtils {
-    constructor(apiContext, loginPayload) {
+
+    readonly apiContext: APIRequestContext;
+    readonly loginPayload: LoginPayload;
+
+    constructor(apiContext: APIRequestContext, loginPayload: LoginPayload) {
         this.apiContext = apiContext
         this.loginPayload = loginPayload
     }
@@ -15,8 +28,8 @@ class ApiUtils {
         return token
     }
 
-    async createOrder(orderPayload) {
-        let response = {}
+    async createOrder(orderPayload: OrderPayload) {
+        let response: any = {};
         response.token = await this.getToken()
         const orderResponse = await this.apiContext.post(
             "https://rahulshettyacademy.com/api/ecom/order/create-order",

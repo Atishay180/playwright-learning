@@ -1,7 +1,16 @@
-import { expect } from "@playwright/test"
+import { expect, type Page, type Locator } from "@playwright/test"
 
 class DashboardPage {
-    constructor(page) {
+
+    readonly page: Page;
+    readonly products: Locator;
+    readonly btnCheckout: Locator;
+    readonly shippingEmail: Locator;
+    readonly btnPlaceOrder: Locator;
+    readonly btnMyOrders: Locator;
+    readonly orders: Locator;
+
+    constructor(page: Page) {
         this.page = page
         this.products = page.locator(".card-body")
 
@@ -16,7 +25,7 @@ class DashboardPage {
     }
 
     //---------Add Product - "ZARA COAT 3" to cart----------
-    async addProductToCart(productName) {
+    async addProductToCart(productName: string) {
         await this.page.waitForLoadState("networkidle")
         console.log(await this.page.locator(".card-body b").allTextContents())
 
@@ -36,7 +45,7 @@ class DashboardPage {
     }
 
     //-------------Payment Section - Place Order------------
-    async paymentAndPlaceOrder(userEmailId) {
+    async paymentAndPlaceOrder(userEmailId: string) {
         await this.shippingEmail.last().fill("testAtishay@gmail.com")
 
         await this.page.getByPlaceholder("Select Country").pressSequentially("ind")
@@ -58,7 +67,7 @@ class DashboardPage {
     }
 
     //--------------My orders - match order id--------------
-    async myOrders(orderId, productName) {
+    async myOrders(orderId: string, productName: string) {
 
         await this.orders.first().waitFor()
 
@@ -66,7 +75,7 @@ class DashboardPage {
         console.log(`Orders Count = ${ordersCount}`)
 
         for (let i = 0; i < ordersCount; i++) {
-            const id = await this.orders.nth(i).locator("th").textContent()
+            const id: any = await this.orders.nth(i).locator("th").textContent()
             if (orderId.includes(id)) {
                 console.log(`Order Id matched`)
                 await this.orders.nth(i).locator("button").first().click()
@@ -74,10 +83,10 @@ class DashboardPage {
             }
         }
 
-        const orderDetails = await this.page.locator(".col-text.-main").textContent()
+        const orderDetails: any = await this.page.locator(".col-text.-main").textContent()
         expect(orderId.includes(orderDetails)).toBeTruthy()
 
-        const orderedProductName = await this.page.locator(".artwork-card-info .title").textContent()
+        const orderedProductName: any = await this.page.locator(".artwork-card-info .title").textContent()
         console.log(`Ordered Product Name = ${orderedProductName}`);
 
         expect(productName.trim().includes(orderedProductName.trim())).toBeTruthy()
